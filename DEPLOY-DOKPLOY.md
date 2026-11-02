@@ -4,7 +4,7 @@ This app is a single Docker service: Django serves the built React app and `/api
 
 The current deployment is [spotter-weather.dev-link.cloud](https://spotter-weather.dev-link.cloud/), created and browser verified on 2 November 2026. The steps below describe its reproducible setup; do not create a duplicate service merely to redeploy the existing app.
 
-1. In Dokploy, create an **Application** in the intended project. Connect the standalone full-stack GitHub repository through your GitHub integration. Grant that integration access to the private repository if needed. Select its actual default branch.
+1. In Dokploy, create an **Application** in the intended project. Connect the standalone full-stack GitHub repository through your GitHub integration. The current repository is public; private forks require appropriate integration access. Select its actual default branch.
 2. Select **Dockerfile** as the build type, repository root as the build path, and `Dockerfile` as the Dockerfile path. If deploying the combined workspace instead, the build path is `/fullstack-weather-assessment` with that directory's `Dockerfile`.
 3. In the application's environment settings, set:
 

@@ -49,7 +49,7 @@ def resolve_location(value, stats):
             if isinstance(value.get("latitude"), bool) or isinstance(value.get("longitude"), bool):
                 raise ValueError
             lat, lon = float(value["latitude"]), float(value["longitude"])
-        except (KeyError, TypeError, ValueError):
+        except (KeyError, TypeError, ValueError, OverflowError):
             raise PlanningError("invalid_location", "Coordinate locations require numeric latitude and longitude.")
         if not math.isfinite(lat) or not math.isfinite(lon) or not -70 <= lat <= 70 or not -170 <= lon <= 170:
             raise PlanningError("unsupported_location", "Supported coordinates are latitude −70..70 and longitude −170..170; polar/dateline routing is outside this demo's scope.")
@@ -57,6 +57,8 @@ def resolve_location(value, stats):
     if not isinstance(value, str) or not 2 <= len(value.strip()) <= 160:
         raise PlanningError("invalid_location", "Provide a city name or an explicit latitude/longitude object.")
     parts = [x.strip() for x in value.split(",") if x.strip()]
+    if not parts:
+        raise PlanningError("invalid_location", "Provide a city name or an explicit latitude/longitude object.")
     key = cache_key("geocoding", [settings.OPEN_METEO_GEOCODING_URL, value.strip().casefold()])
     saved = cache.get(key)
     if saved is not None:

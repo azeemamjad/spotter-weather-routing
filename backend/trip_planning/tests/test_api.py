@@ -76,6 +76,24 @@ class ApiTests(SimpleTestCase):
         self.assertEqual(response.status_code,400)
         self.assertEqual(response.json()["error"]["code"],"demo_route_only")
 
+    def test_punctuation_locations_and_huge_numbers_return_validation_errors(self):
+        req=request("live")
+        req["origin"]={"latitude":42,"longitude":-88}
+        req["destination"]={"latitude":42,"longitude":-86}
+        cases=[
+            ("origin",",,","invalid_location"),
+            ("destination",", , ,","invalid_location"),
+            ("load_weight_lb",10**400,"invalid_load"),
+            ("origin",{"latitude":10**400,"longitude":-88},"invalid_location"),
+            ("destination",{"latitude":42,"longitude":10**400},"invalid_location"),
+        ]
+        for field,value,code in cases:
+            data={**req,field:value}
+            with self.subTest(field=field,value=value):
+                response=self.client.post("/api/weather-route-plan/",data=json.dumps(data),content_type="application/json")
+                self.assertEqual(response.status_code,400)
+                self.assertEqual(response.json()["error"]["code"],code)
+
     @patch("trip_planning.planner.get_forecasts",return_value={})
     @patch("trip_planning.planner.get_routes",return_value=[synthetic_route()])
     def test_missing_live_forecasts_are_unknown_and_not_recommended(self,routes,forecasts):

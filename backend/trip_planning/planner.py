@@ -41,7 +41,7 @@ def validate_request(data, now=None):
         raise PlanningError("invalid_load", "load_weight_lb must be a number from 0 to 100,000.")
     try:
         load = float(data["load_weight_lb"])
-    except (TypeError,ValueError):
+    except (TypeError,ValueError,OverflowError):
         raise PlanningError("invalid_load", "load_weight_lb must be a number from 0 to 100,000.")
     if not math.isfinite(load) or not 0 <= load <= 100000:
         raise PlanningError("invalid_load", "load_weight_lb must be a finite number from 0 to 100,000.")
@@ -62,7 +62,7 @@ def demo_location(value, expected, latitude, longitude):
     elif isinstance(value,dict):
         try:
             matches=abs(float(value["latitude"])-latitude)<.2 and abs(float(value["longitude"])-longitude)<.2
-        except (KeyError,ValueError,TypeError):
+        except (KeyError,ValueError,TypeError,OverflowError):
             matches=False
     else:
         matches=False

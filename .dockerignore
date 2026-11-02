@@ -1,0 +1,11 @@
+.git
+**/.venv
+**/.cache
+**/__pycache__
+**/*.pyc
+**/node_modules
+**/dist
+**/.env
+**/*.sqlite3
+**/*.log
+**/*.tsbuildinfo

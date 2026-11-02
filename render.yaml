@@ -1,0 +1,17 @@
+# Standalone full-stack repository Blueprint. No deployment has been created.
+# Reference: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: spotter-weather-routing
+    runtime: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health/
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "false"
+      - key: ALLOWED_HOSTS
+        sync: false

@@ -2,6 +2,8 @@
 
 React + Django implementation of Spotter's Full Stack Developer assessment. Enter origin, destination, departure time, load in pounds and a 10/25/50-mile sampling interval. Compare real road-route options, inspect arrival-time checkpoint weather and explore a forecast heatmap across the trip corridor from departure through +48 hours.
 
+**Hosted application:** [spotter-weather.dev-link.cloud](https://spotter-weather.dev-link.cloud/). Deployed with Dokploy from the private GitHub repository and verified with a live trip in a clean browser on 2 November 2026.
+
 The default **Live forecast** mode uses external providers. **Offline demonstration** is an explicitly labeled Chicago–Detroit trip with saved real OSRM road geometry and synthetic weather. It works without network requests to routing/weather APIs, but map tiles still need internet. Synthetic weather is never a substitute for a live forecast.
 
 ## Prerequisites and startup
@@ -96,8 +98,10 @@ docker build -t spotter-weather .
 docker run --rm -p 8080:8000 -e DEBUG=false -e ALLOWED_HOSTS=localhost,127.0.0.1 -e SECRET_KEY=local-container-check-only spotter-weather
 ```
 
-The selected hosting target is **Dokploy**. Follow [DEPLOY-DOKPLOY.md](DEPLOY-DOKPLOY.md) for the private GitHub source, Dockerfile build path, environment values, container port 8000, domain and health check. The standalone `render.yaml` is an alternative configuration following [Render's Blueprint specification](https://render.com/docs/blueprint-spec). Configuration is provided, but a hosted application URL must be created and verified before submission. The local Docker client was found, but its Linux engine was not running during initial checks, so a container build was not verified then.
+The application is deployed with **Dokploy** at [spotter-weather.dev-link.cloud](https://spotter-weather.dev-link.cloud/). Follow [DEPLOY-DOKPLOY.md](DEPLOY-DOKPLOY.md) for the private GitHub source, Dockerfile build path, environment values, container port 8000, domain and health check. The standalone `render.yaml` is an alternative configuration following [Render's Blueprint specification](https://render.com/docs/blueprint-spec). The local Docker engine was unavailable during initial checks; the Docker build and runtime were subsequently verified through the Dokploy deployment.
+
+Hosted browser verification on 2 November 2026: a live Chicago–Detroit request at 25-mile sampling returned **three distinct routes** of 280.9, 298.1 and 331.2 miles, **129 corridor cells**, all **49 heatmap hours** and **100% ETA forecast coverage**. The cold request measured **5.428 seconds**. Route/checkpoint interaction, the +48-hour slider endpoint and checkpoint weather/ETA display worked, with no browser warnings or errors observed. A direct Python HTTP probe was blocked with 403 by the site's Cloudflare layer; the successful verification used the browser. Forecasts and provider timing are variable, so these observations describe the tested snapshot.
 
 ## Submission status and time record
 
-GitHub: [azeemamjad/spotter-weather-routing](https://github.com/azeemamjad/spotter-weather-routing), created private. Grant the hiring team access before submission. A genuine hosted application URL and 5–10-minute Loom recording remain required; no Loom or deployed URL is invented by this project. Record actual applicant work/review time; concurrent agent wall-clock duration is not a verified 16-hour assessment log. Update this section with the real links and time before submission, and state any remaining limitations. Submit to the full-stack assessment's own **Show Questions** form.
+GitHub: [azeemamjad/spotter-weather-routing](https://github.com/azeemamjad/spotter-weather-routing), private. Hosted application: [spotter-weather.dev-link.cloud](https://spotter-weather.dev-link.cloud/), deployed and browser verified. Grant the hiring team repository access before submission. A genuine accessible **5–10-minute Loom recording** and actual applicant work/review time log remain required; neither is invented by this project. Concurrent agent wall-clock duration is not a verified 16-hour assessment log. Add the recording/time details before submission and state any remaining limitations. Submit to the full-stack assessment's own **Show Questions** form.

@@ -11,7 +11,7 @@ export default function TripMap({plan, selected, hour, heatVisible, onCheckpoint
  const fit = () => { const coords=current.current.plan?.routes.flatMap(r=>r.geometry.coordinates); if(coords?.length){const bounds=new maplibregl.LngLatBounds();coords.forEach(p=>bounds.extend([p[0],p[1]])); map.current?.fitBounds(bounds,{padding:65,duration:800,maxZoom:11});}};
  useEffect(()=>{
   if(!element.current) return;
-  const m=new maplibregl.Map({container:element.current,center:[-93.2,37.8],zoom:4,attributionControl:{compact:true},style:{version:8,sources:{'osm':{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,attribution:'© OpenStreetMap contributors'}},layers:[{id:'base',type:'raster',source:'osm',paint:{'raster-saturation':-.72,'raster-opacity':.86}}]}});
+  const m=new maplibregl.Map({container:element.current,center:[-93.2,37.8],zoom:4,attributionControl:{compact:true},style:'https://tiles.openfreemap.org/styles/positron'});
   map.current=m;
   m.on('error',()=>setMapError('Some map tiles could not load. Route results remain available.'));
   m.on('load',()=>{
